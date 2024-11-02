@@ -6,9 +6,10 @@ from src.models import SimpleStatus
 
 
 class Source(BaseModel):
+    # id: Optional[str] = Field(alias="_id")
     slug: str
     name: str
-    status: SimpleStatus
-    url: Optional[HttpUrl] = None
+    status: SimpleStatus = SimpleStatus.enabled
+    url: Optional[str] = None
     # language: str
     # tags: List[str] = []

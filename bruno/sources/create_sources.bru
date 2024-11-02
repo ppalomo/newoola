@@ -1,0 +1,45 @@
+meta {
+  name: create_sources
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8001/sources
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  [
+      {
+          "name": "Real Python",
+          "slug": "realpython",
+          "url": "https://realpython.com/",
+          "fetch_url": "https://realpython.com/atom.xml",
+          "tags": [
+              "python"
+          ]
+      },
+      {
+          "name": "Pybites",
+          "slug": "pybites",
+          "url": "https://pybit.es/articles/",
+          "fetch_url": "https://pybit.es/feed/",
+          "tags": [
+              "python"
+          ]
+      },
+      {
+          "name": "Matt Layman",
+          "slug": "mattlayman",
+          "url": "https://www.mattlayman.com",
+          "fetch_url": "https://www.mattlayman.com/index.xml",
+          "tags": []
+      }
+  ]
+}
+
+body:multipart-form {
+  : @file(C:\work\newoola\services\content\src\sources\seeds.json)
+}

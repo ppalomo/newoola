@@ -1,6 +1,7 @@
 [
     {
         "name": "Real Python",
+        "slug": "realpython",
         "url": "https://realpython.com/",
         "fetch_url": "https://realpython.com/atom.xml",
         "tags": [
@@ -9,6 +10,7 @@
     },
     {
         "name": "Pybites",
+        "slug": "pybites",
         "url": "https://pybit.es/articles/",
         "fetch_url": "https://pybit.es/feed/",
         "tags": [
@@ -17,6 +19,7 @@
     },
     {
         "name": "Matt Layman",
+        "slug": "mattlayman",
         "url": "https://www.mattlayman.com",
         "fetch_url": "https://www.mattlayman.com/index.xml",
         "tags": []

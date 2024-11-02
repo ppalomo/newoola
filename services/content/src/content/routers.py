@@ -2,13 +2,14 @@ import logging
 from fastapi import APIRouter, HTTPException, status
 from bson import ObjectId
 from typing import List
+from src.models import DbCollection
 from src.database import db
 from .serializers import content_list_serializer
 from .models import Content
 
 
 content_router = APIRouter()
-content_collection = db["content"]
+content_collection = db[DbCollection.Content]
 
 
 @content_router.get(
@@ -19,8 +20,27 @@ content_collection = db["content"]
 async def get_content():
     """Retrieves content items."""
 
-    items = content_list_serializer(content_collection.find())
-    return items
+    pipeline = [
+        {
+            "$lookup": {
+                "from": DbCollection.Sources,
+                "localField": "source_slug",
+                "foreignField": "slug",
+                "as": "source",
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$source",
+                "preserveNullAndEmptyArrays": True,
+            }
+        },
+    ]
+
+    # Executing aggregation and getting results
+    contents_with_sources = list(content_collection.aggregate(pipeline))
+
+    return content_list_serializer(contents_with_sources)
 
 
 @content_router.post("/content", status_code=status.HTTP_201_CREATED, tags=["Content"])

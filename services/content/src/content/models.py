@@ -8,9 +8,9 @@ from src.sources.models import Source
 
 
 class ContentCategory(str, Enum):
-    blog = "blog"
-    news = "news"
-    video = "video"
+    Blog = "blog"
+    News = "news"
+    Video = "video"
 
 
 class CategoryEnum(str, Enum):
@@ -29,7 +29,7 @@ class Content(BaseModel):
     title: str = Field(..., max_length=150)
     status: SimpleStatus
     url: Optional[str] = None
-    # source: Source
+    source_slug: Optional[str]  # Foreign key to Source by slug
     category: ContentCategory
     summary: Optional[str] = None
     level: ContentLevel
