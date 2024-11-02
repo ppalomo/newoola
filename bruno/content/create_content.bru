@@ -1,0 +1,30 @@
+meta {
+  name: create_content
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8001/content
+  body: json
+  auth: none
+}
+
+body:json {
+  [
+    {
+      "title": "Python Closures 1",
+      "status": 1,
+      "url": "https://realpython.com/python-closure/",
+      "category": "blog",
+      "level": 0
+    },
+    {
+      "title": "Python Closures 2",
+      "status": 1,
+      "url": "https://realpython.com/python-closure/",
+      "category": "blog",
+      "level": 0
+    }
+  ]
+}

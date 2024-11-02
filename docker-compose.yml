@@ -1,0 +1,32 @@
+version: "3.7"
+
+name: newoola
+
+services:
+
+  places_service:
+    build: ./services/content
+    container_name: "content_service"
+    volumes:
+      - ./services/content/src:/code/src
+    ports:
+      - 8001:8000
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - content_db
+
+  content_db:
+    image: mongo:8.0.1
+    container_name: "content_db"
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_newoola_content_data:/data/db
+    environment:
+      - "MONGO_INITDB_DATABASE=newoola_content"
+      - "MONGO_INITDB_ROOT_USERNAME=admin"
+      - "MONGO_INITDB_ROOT_PASSWORD=password"
+
+volumes:
+  mongodb_newoola_content_data:

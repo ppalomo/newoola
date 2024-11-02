@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+.env
+
+# Custom exclusions
+/data
+/config/sources
+*/__pycache__
+/cache/*
+/htmlcov
+.coverage
+/config/seeds/news*
+/.vscode
+
+# env variables
+*.env*
