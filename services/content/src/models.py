@@ -7,6 +7,6 @@ class DbCollection(str, Enum):
 
 
 class SimpleStatus(int, Enum):
-    disabled = 0
-    enabled = 1
-    draft = 2
+    Disabled = 0
+    Enabled = 1
+    Draft = 2

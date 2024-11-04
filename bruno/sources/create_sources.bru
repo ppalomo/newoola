@@ -6,7 +6,7 @@ meta {
 
 post {
   url: http://localhost:8001/sources
-  body: multipartForm
+  body: json
   auth: none
 }
 
@@ -15,8 +15,10 @@ body:json {
       {
           "name": "Real Python",
           "slug": "realpython",
+          "status": 1,
           "url": "https://realpython.com/",
           "fetch_url": "https://realpython.com/atom.xml",
+          "item_tag": "entry",
           "tags": [
               "python"
           ]
@@ -24,8 +26,10 @@ body:json {
       {
           "name": "Pybites",
           "slug": "pybites",
+          "status": 1,
           "url": "https://pybit.es/articles/",
           "fetch_url": "https://pybit.es/feed/",
+          "item_tag": "item",
           "tags": [
               "python"
           ]
@@ -33,8 +37,10 @@ body:json {
       {
           "name": "Matt Layman",
           "slug": "mattlayman",
+          "status": 1,
           "url": "https://www.mattlayman.com",
           "fetch_url": "https://www.mattlayman.com/index.xml",
+          "item_tag": "item",
           "tags": []
       }
   ]

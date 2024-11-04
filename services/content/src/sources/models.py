@@ -9,7 +9,9 @@ class Source(BaseModel):
     # id: Optional[str] = Field(alias="_id")
     slug: str
     name: str
-    status: SimpleStatus = SimpleStatus.enabled
+    status: SimpleStatus = SimpleStatus.Enabled
     url: Optional[str] = None
+    fetch_url: Optional[str] = None
+    item_tag: Optional[str] = "item"
     # language: str
     # tags: List[str] = []

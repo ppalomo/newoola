@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 from bson import ObjectId
 from typing import List
 from src.database import db
-from src.models import DbCollection
+from src.models import DbCollection, SimpleStatus
 from .serializers import source_list_serializer
 from .models import Source
 
@@ -20,7 +20,9 @@ sources_collection = db[DbCollection.Sources]
 async def get_sources():
     """Retrieves source items."""
 
-    items = source_list_serializer(sources_collection.find())
+    items = source_list_serializer(
+        sources_collection.find({"status": SimpleStatus.Enabled})
+    )
     return items
 
 

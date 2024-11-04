@@ -8,4 +8,6 @@ def source_detail_serializer(item) -> dict:
         "name": item["name"],
         "slug": item["slug"],
         "url": item["url"],
+        "fetch_url": item["fetch_url"],
+        "item_tag": item["item_tag"],
     }
