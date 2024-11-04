@@ -4,7 +4,7 @@ name: newoola
 
 services:
 
-  places_service:
+  content_service:
     build: ./services/content
     container_name: "content_service"
     volumes:
@@ -28,19 +28,6 @@ services:
       - "MONGO_INITDB_ROOT_USERNAME=admin"
       - "MONGO_INITDB_ROOT_PASSWORD=password"
 
-  # fetcher_service:
-  #   build: ./services/fetcher
-  #   container_name: "fetcher_service"
-  #   command: celery -A src.main worker --loglevel=info
-  #   volumes:
-  #     - ./services/fetcher/src:/code/src
-  #   # ports:
-  #   #   - 8001:8000
-  #   environment:
-  #     - PYTHONUNBUFFERED=1
-  #   depends_on:
-  #     - redis
-
   redis:
     image: redis:6.0-alpine
     container_name: "redis"
@@ -50,9 +37,10 @@ services:
   celery_worker:
     build: ./services/fetcher
     container_name: "celery_worker"
-    command: celery -A src.celery worker --concurrency=4 --loglevel=info
+    command: celery -A src.main worker --concurrency=4 --loglevel=info
     depends_on:
       - redis
+      - content_service
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -60,9 +48,10 @@ services:
   celery_beat:
     build: ./services/fetcher
     container_name: "celery_beat"
-    command: celery -A src.celery beat --loglevel=info
+    command: celery -A src.main beat --loglevel=info
     depends_on:
       - redis
+      - content_service
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0

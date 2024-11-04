@@ -1,22 +1,26 @@
-# from celery import Celery
-# from src.tasks import process_data
-
-# # # Configura Celery con Redis como broker
-# # app = Celery(
-# #     "your_app",
-# #     broker="redis://redis:6379/0",  # Broker URL de Redis
-# #     backend="redis://redis:6379/0",  # Backend para almacenar resultados
-# # )
-
-# # # # Configuración opcional, por ejemplo, especificar zona horaria
-# # app.conf.timezone = "UTC"
-# # # # app.conf.task_routes = {"app.tasks.*": {"queue": "default"}}
-# # app.autodiscover_tasks(["src.tasks"])
+import requests
+import time
+from .celery_manager import CeleryManager
+from .cache_manager import CacheManager
+from requests.exceptions import ConnectionError
 
 
-# # # Llama a una tarea asíncrona
-# process_data.delay("aaa")
-# process_data.delay("bbb")
+def get_sources():
+    for _ in range(10):  # Número máximo de intentos de reconexión
+        try:
+            sources = requests.get("http://content_service:8000/sources")
+            return sources.json()
+        except ConnectionError:
+            print("Waiting for content_service to be ready...")
+            time.sleep(5)  # Esperar 5 segundos antes de reintentar
+    raise Exception("content_service no está disponible después de varios intentos")
 
 
-print("O" * 50)
+cache_manager = CacheManager(host="redis")
+celery_manager = CeleryManager(cache_manager)
+celery = celery_manager.app
+celery_manager.configure()
+
+sources = get_sources()
+
+celery_manager.schedule(sources)
